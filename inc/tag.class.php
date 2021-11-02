@@ -487,7 +487,7 @@ class PluginTagTag extends CommonDropdown {
          ]);
 
          $content = "<div style='display: flex; flex-wrap: wrap;'>";
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
             $title = htmlentities($data['comment']);
             $name = htmlentities($data['name']);
             $textcolor = idealTextColor($data['color']);
@@ -741,9 +741,16 @@ class PluginTagTag extends CommonDropdown {
       if (!empty($itemtype)
           && class_exists($itemtype)
           && is_subclass_of($itemtype, "CommonDBTM")) {
-         // instanciate itemtype (to retrieve camelcase)
-         $item = new $itemtype;
-         return $item->getType();
+         try {
+            $rc = new \ReflectionClass($itemtype);
+            //if ($rc->isInstantiable()) {
+               // instanciate itemtype (to retrieve camelcase)
+               $item = new $itemtype;
+               return $item->getType();
+            //}
+         } catch (ReflectionException $e) {
+            Toolbox::logError($e->getMessage());
+         }
       }
 
       return false;

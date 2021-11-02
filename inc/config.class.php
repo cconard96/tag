@@ -11,7 +11,7 @@ class PluginTagConfig extends CommonDBTM {
       return '';
    }
 
-   public function showForm() {
+   public function showForm($ID, array $options = []) {
       global $CFG_GLPI;
       if (!Session::haveRight('config', UPDATE)) {
          return false;

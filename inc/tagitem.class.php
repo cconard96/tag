@@ -226,7 +226,7 @@ class PluginTagTagItem extends CommonDBRelation {
 
             $linked_iterator = $DB->request($criteria);
 
-            while ($data = $linked_iterator->next()) {
+            foreach ($linked_iterator as $data) {
 
                if ($itemtype == 'Softwarelicense') {
                   $soft = new Software();
